@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["es7", "dom", "ES2017.object"],
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "types": ["node"],
+    "target": "esnext",
+    "sourceMap": true,
+    "jsx": "react",
+    "allowJs": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
