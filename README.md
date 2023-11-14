@@ -49,11 +49,4 @@ Generates a [TypeDoc](https://typedoc.org/) documentation of the project inside 
 
 ## Survey
 
-As part of [the accompanying paper](https://github.com/FAU-CS6/sql-query-distance/blob/master/paper.pdf), we have conducted a survey on the fairness and comprehensibility of gradings generated using this tool.
-
-The following material from it can be found the `survey` folder:
-- An html file containing a snapshot of the survey's design. 
-- A csv file of the raw results downloaded from the survey tool.
-- The xlsx file with all the steps made to process and visualize the results.
-
-Beware though, that most of the content is in German!
+As part of the paper, a survey was also conducted for evaluation purposes. Detailed information about the survey can be found in the `survey` folder.
