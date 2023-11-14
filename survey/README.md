@@ -4,7 +4,7 @@ Our survey was conducted among research assistants and students with advanced SQ
 
 The survey tool utilized for this purpose was [LamaPool](https://www.lamapoll.de/).
 
-The results of the survey can be viewed in their original form in the `results` folder, or in a readable format later in this Markdown file.
+The survey results are located in the `results` folder. This includes a file with the pure results as exported by lamapoll (`raw-results.csv`), as well as a file containing all the transformations required to arrive at the results as we have published them in the paper (`transformed-and-visualized-results.xlsx`).
 
 The original survey was saved as an HTML file in the `snapshots` folder.
 
