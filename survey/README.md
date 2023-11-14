@@ -54,22 +54,22 @@ Indem Sie an der Umfrage teilnehmen bestätigen Sie, dass Sie mindestens 18 Jahr
 x Ich bestätige hiermit, dass ich mit der Einverständniserklärung einverstanden bin.
     </td>
     <td width="50%">
-<h3>Comparison of SQL Evaluation Methods</h3>
-In this survey, we aim to compare <strong>3 evaluation methods</strong> for SQL exercises in terms of their <strong>fairness</strong> and <strong>transparency</strong>.
+<h3>Comparison of SQL Grading Methods</h3>
+In this survey, we aim to compare <strong>3 grading methods</strong> for SQL exercises in terms of their <strong>fairness</strong> and <strong>comprehensibility</strong>.
       
 The <strong>survey</strong> is structured as follows:
 
-Initially, on the next page, the <strong>evaluation methods</strong> will be introduced. Please take the time to read the explanations carefully to be able to make an informed assessment of the <strong>fairness</strong> and <strong>transparency</strong> of each correction on the subsequent pages.
+Initially, on the next page, the <strong>grading methods</strong> will be introduced. Please take the time to read the explanations carefully to be able to make an informed assessment of the <strong>fairness</strong> and <strong>comprehensibility</strong> of each correction on the subsequent pages.
 
 This is followed by 11 scenarios, each structured as follows:
-- Firstly, you will find the <strong>task description</strong>, which includes a <strong>database schema</strong> (always the same database), and a <strong>description of the data sought</strong> (often the same task description repeated, indicated by a code).
-- Then, there is the <strong>model solution</strong> (which changes only if the task description changes),
-- Along with an actual <strong>response from</strong> (anonymous) <strong>students</strong> who have worked on the task as part of their exam preparation (each scenario features a different response, also indicated by a code).
-- Finally, there are interpretations of the <strong>model solution</strong>, corrections of the <strong>student response</strong>, and the resulting <strong>evaluation</strong> for each of the <strong>three evaluation methods</strong>.
+- Firstly, you will find the <strong>task description</strong>, which includes a <strong>database schema</strong> (always the same database), and a <strong>description of the data sought</strong> (often the same task description repeated, indicated by an ID).
+- Then, there is the <strong>reference solution</strong> (which changes only if the task description changes),
+- Along with an actual <strong>response from</strong> (anonymous) <strong>students</strong> who have worked on the task as part of their exam preparation (each scenario features a different response, indicated by a second ID).
+- Finally, there are interpretations of the <strong>reference solution</strong>, corrections of the <strong>student response</strong>, and the resulting <strong>grading</strong> for each of the <strong>three grading methods</strong>.
 
-Your task is to compare these <strong>evaluations</strong> in terms of their <strong>fairness</strong> and <strong>transparency</strong>.
+Your task is to compare these <strong>gradings</strong> in terms of their <strong>fairness</strong> and <strong>comprehensibility</strong>.
 
-Note that the <strong>order of the evaluation methods</strong> is <strong>always random</strong> to maintain impartiality in the survey.
+Note that the <strong>order of the grading methods</strong> is <strong>always random</strong> to maintain impartiality in the survey.
 
 The survey will take approximately 30 minutes to complete.
 
@@ -93,7 +93,7 @@ x I hereby confirm that I agree with the Consent Form.
 
 ## Page 2
 
-In the survey tool, the order of the three descriptions is randomized to avoid bias due to the sequence.
+In the survey tool, the order of the three descriptions is randomized to avoid bias due to their odering.
 
 <table>
   <tr>
@@ -126,24 +126,24 @@ Es ergibt sich folgende <strong>Formel</strong>:
 <strong>Punkte </strong>= (<strong>Schwierigkeit </strong>- <strong>Distanz</strong>) / <strong>Schwierigkeit </strong>* <strong>Maximale Punkte</strong>
     </td>
     <td width="50%">
-<h3>The three evaluation methods</h3>
-<h4>Result-Based Evaluation</h4>
-To evaluate a <strong>student response</strong>, both the <strong>model solution</strong> and the <strong>student response</strong> are executed on a test database, and then the <strong>result relations</strong> are compared in terms of the following values. For each <strong>task</strong>, individual maximum points are assigned to each of these values; the evaluation is simply calculated as the sum of the partial point scores:
-<ul><li><strong>Number of tuples</strong>:<br />If the <strong>student response</strong> yields the same number of tuples as the <strong>model solution</strong>, maximum points are awarded, otherwise 0.</li>
-<li><strong>Names of attributes</strong>:<br />The attribute names in the <strong>result relation</strong> of the <strong>student response</strong> are compared with those of the <strong>model solution</strong> using the Jaccard distance (Points = Maximum points * (1 - Jaccard Distance)). The order and case (upper/lower) of the attribute names are irrelevant.</li>
-<li><strong>Functional dependencies</strong>:<br />The functional dependencies in the <strong>result relation</strong> of the <strong>student response</strong> are compared with those in the <strong>model solution</strong>, also using the Jaccard distance (Points = Maximum points * (1 - Jaccard Distance)). The order and naming of the attributes are also irrelevant here. </li></ul>
+<h3>The three grading methods</h3>
+<h4>Result-Based Grading</h4>
+To evaluate a <strong>student response</strong>, both the <strong>reference solution</strong> and the <strong>student response</strong> are executed on a test database, and then the <strong>result relations</strong> are compared in terms of the following values. For each <strong>task</strong>, individual maximum points are assigned to each of these values; the grading is simply calculated as the sum of the partial point scores:
+<ul><li><strong>Number of tuples</strong>:<br />If the <strong>student response</strong> yields the same number of tuples as the <strong>reference solution</strong>, maximum points are awarded, otherwise 0.</li>
+<li><strong>Names of attributes</strong>:<br />The attribute names in the <strong>result relation</strong> of the <strong>student response</strong> are compared with those of the <strong>reference solution</strong> using the Jaccard distance (Points = Maximum points * (1 - Jaccard Distance)). The order and case (upper/lower) of the attribute names are irrelevant.</li>
+<li><strong>Functional dependencies</strong>:<br />The functional dependencies in the <strong>result relation</strong> of the <strong>student response</strong> are compared with those in the <strong>reference solution</strong>, also using the Jaccard distance (Points = Maximum points * (1 - Jaccard Distance)). The order and naming of the attributes are also irrelevant here. </li></ul>
 
-<h4>Manual Evaluation</h4>
-To evaluate a <strong>student response</strong>, it is manually examined for differences from the <strong>model solution</strong>.
+<h4>Manual Grading</h4>
+To evaluate a <strong>student response</strong>, it is manually examined for differences from the <strong>reference solution</strong>.
 
-For this purpose, a <strong>grading scheme</strong> is first established for the <strong>model solution</strong>. This generally follows the natural blocks that make up the query.
+For this purpose, a <strong>grading scheme</strong> is first established for the <strong>reference solution</strong>. This generally follows the natural blocks that make up the query.
 
 A <strong>student response</strong> is evaluated by individually checking each criterion of the <strong>grading scheme</strong> to see if the student's response matches it. In the case of inaccuracies, full points are not necessarily deducted/not awarded; depending on the severity of the error, only half points or none at all may be deducted.
 
-<h4>Distance-Based Evaluation</h4>
-To evaluate a <strong>student response</strong>, its <strong>semantic differences</strong> from the <strong>model solution</strong> are examined. These differences are represented by <strong>transformations</strong> that make specific changes to an SQL query, thereby converting it into another form. By chaining <strong>transformations</strong>, any SQL query can be transformed into any other. Each <strong>transformation</strong> has individual <strong>costs</strong>, which quantify the size of the <strong>semantic difference</strong> embodied by it. (Equivalence transformations, accordingly, have costs of 0.) The <strong>semantic distance</strong> between two given SQL queries is defined as the smallest possible <strong>sum of costs</strong> for a <strong>chain of transformations</strong> that converts one query into the other.
+<h4>Distance-Based Grading</h4>
+To evaluate a <strong>student response</strong>, its <strong>semantic differences</strong> from the <strong>reference solution</strong> are examined. These differences are represented by <strong>transformations</strong> that make specific changes to an SQL query, thereby converting it into another form. By chaining <strong>transformations</strong>, any SQL query can be transformed into any other. Each <strong>transformation</strong> has individual <strong>costs</strong>, which quantify the size of the <strong>semantic difference</strong> embodied by it. (Equivalence transformations, accordingly, have costs of 0.) The <strong>semantic distance</strong> between two given SQL queries is defined as the smallest possible <strong>sum of costs</strong> for a <strong>chain of transformations</strong> that converts one query into the other.
 
-The greater the <strong>semantic distance</strong> between the <strong>student response</strong> and the <strong>model solution</strong>, the fewer points the <strong>student response</strong> receives. To determine this, the <strong>difficulty</strong> of the <strong>model solution</strong> is first quantified. The <strong>semantic distance</strong> is subtracted from this <strong>difficulty</strong> (and limited to a minimum of 0), resulting in a value between 0 and the <strong>difficulty</strong>. This value is then scaled to the range between 0 and the <strong>maximum points</strong> for the task.
+The greater the <strong>semantic distance</strong> between the <strong>student response</strong> and the <strong>reference solution</strong>, the fewer points the <strong>student response</strong> receives. To determine this, the <strong>difficulty</strong> of the <strong>reference solution</strong> is first quantified. The <strong>semantic distance</strong> is subtracted from this <strong>difficulty</strong> (and limited to a minimum of 0), resulting in a value between 0 and the <strong>difficulty</strong>. This value is then scaled to the range between 0 and the <strong>maximum points</strong> for the task.
 
 The following <strong>formula</strong> is derived:
 
@@ -365,22 +365,22 @@ This database is modeled after the standard curriculum of the Bachelor's program
 Provide the name of each module, the corresponding semester, and ECTS credits.
 
 The maximum score is 3.
-<h4>Sample Solution</h4>
+<h4>Reference Solution</h4>
 <code>SELECT m.bezeichnung, ms.semester, ms.ects
 FROM modul m
 JOIN modul_semester ms ON m.id = ms.modul;</code>
 <h4>Student Response 1</h4>
 <code>SELECT modul, semester, ects
 FROM modul_semester;</code>
-<h4><b>Manual Evaluation: 1,5 / 3</b></h4>
-<h5>Sample Solution:</h5>
+<h4><b>Manual Grading: 1,5 / 3</b></h4>
+<h5>Reference Solution:</h5>
 <img src="img/scenario-1-1-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-1-1-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 1.5
-<h4><b>Distance-Based Evaluation: 1,5 / 3</b></h4>
-<h5>Sample Solution:</h5>
+<h4><b>Distance-Based Grading: 1,5 / 3</b></h4>
+<h5>Reference Solution:</h5>
 Difficulty: 14
 <h5>Student Reponse:</h5>
 <strong>Total Distance: 7</strong>
@@ -410,10 +410,10 @@ SELECT bezeichnung, semester, ects FROM modul INNER JOIN modul_semester ON (id =
 
 &gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
 SELECT bezeichnung, semester, ects FROM modul INNER JOIN modul_semester ON (id = modul);
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (14 - 7) / 14 * 3 = 1,5
-<h4><b>Result-Based Evaluation: 2,7 / 3</b></h4>
-<h5>Sample Solution:</h5>
+<h4><b>Result-Based Grading: 2,7 / 3</b></h4>
+<h5>Reference Solution:</h5>
 <table>
     <thead>
         <tr>
@@ -467,13 +467,13 @@ Points = (14 - 7) / 14 * 3 = 1,5
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 1 + 0.66666666666667 + 1 = 2,7
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -486,19 +486,19 @@ Points = 1 + 0.66666666666667 + 1 = 2,7
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -506,10 +506,10 @@ Points = 1 + 0.66666666666667 + 1 = 2,7
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -522,19 +522,19 @@ Points = 1 + 0.66666666666667 + 1 = 2,7
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -803,15 +803,15 @@ FROM modul m
 JOIN modul_semester ms ON m.id = ms.modul 
 GROUP BY m.bezeichnung;</code>
 
-<h4><b>Manual Evaluation: 2 / 3</b></h4>
+<h4><b>Manual Grading: 2 / 3</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-1-2-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-1-2-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2
 
-<h4><b>Distance-Based Evaluation: 2,6 / 3</b></h4>
+<h4><b>Distance-Based Grading: 2,6 / 3</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 14
 <h5>Student Reponse:</h5>
@@ -824,10 +824,10 @@ SELECT bezeichnung, semester, ects FROM modul INNER JOIN modul_semester ON (id =
 
 SELECT bezeichnung, semester, ects FROM modul INNER JOIN modul_semester ON (id = modul);
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (14 - 2) / 14 * 3 = 2,5714285714
 
-<h4><b>Result-Based Evaluation: 1 / 3</b></h4>
+<h4><b>Result-Based Grading: 1 / 3</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -882,13 +882,13 @@ Points = (14 - 2) / 14 * 3 = 2,5714285714
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 0 + 1 + 0 = 1
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -901,19 +901,19 @@ Points = 0 + 1 + 0 = 1
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -921,10 +921,10 @@ Points = 0 + 1 + 0 = 1
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -937,19 +937,19 @@ Points = 0 + 1 + 0 = 1
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -1230,15 +1230,15 @@ FROM modul, modul_semester
 WHERE modul_semester.modul = modul.id 
 GROUP BY modul.id, modul_semester.semester;</code>
 
-<h4><b>Manual Evaluation: 2 / 3</b></h4>
+<h4><b>Manual Grading: 2 / 3</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-1-3-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-1-3-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2
 
-<h4><b>Distance-Based Evaluation: 2,1 / 3</b></h4>
+<h4><b>Distance-Based Grading: 2,1 / 3</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 14
 <h5>Student Reponse:</h5>
@@ -1263,10 +1263,10 @@ SELECT bezeichnung, semester, ects FROM modul INNER JOIN modul_semester ON (id =
 
 SELECT bezeichnung, semester, ects FROM modul INNER JOIN modul_semester ON (id = modul);
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (14 - 4) / 14 * 3 = 2,1428571428
 
-<h4><b>Result-Based Evaluation: 3 / 3</b></h4>
+<h4><b>Result-Based Grading: 3 / 3</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -1321,13 +1321,13 @@ Points = (14 - 4) / 14 * 3 = 2,1428571428
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 1 + 1 + 1 = 3
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -1340,19 +1340,19 @@ Points = 1 + 1 + 1 = 3
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -1360,10 +1360,10 @@ Points = 1 + 1 + 1 = 3
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -1376,19 +1376,19 @@ Points = 1 + 1 + 1 = 3
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -1669,15 +1669,15 @@ join modul m on m.id = ms.modul
 group by ms.semester 
 having count(m.themengebiet) > 3;</code>
 
-<h4><b>Manual Evaluation: 3,5 / 4</b></h4>
+<h4><b>Manual Grading: 3,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-2-1-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-2-1-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 3,5
 
-<h4><b>Distance-Based Evaluation: 3,5 / 4</b></h4>
+<h4><b>Distance-Based Grading: 3,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 16
 <h5>Student Reponse:</h5>
@@ -1702,10 +1702,10 @@ SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY se
 
 SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (16 - 2) / 16 * 4 = 3,5
 
-<h4><b>Result-Based Evaluation: 1 / 4</b></h4>
+<h4><b>Result-Based Grading: 1 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -1750,13 +1750,13 @@ Points = (16 - 2) / 16 * 4 = 3,5
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 0 + 1 = 1
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -1769,19 +1769,19 @@ Points = 0 + 1 = 1
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -1789,10 +1789,10 @@ Points = 0 + 1 = 1
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -1805,19 +1805,19 @@ Points = 0 + 1 = 1
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -2099,15 +2099,15 @@ join modul m on ms.modul = m.id
 group by ms.semester 
 having count(m.themengebiet) > 3;</code>
 
-<h4><b>Manual Evaluation: 3 / 4</b></h4>
+<h4><b>Manual Grading: 3 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-2-2-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-2-2-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 3
 
-<h4><b>Distance-Based Evaluation: 3,25 / 4</b></h4>
+<h4><b>Distance-Based Grading: 3,25 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 16
 <h5>Student Reponse:</h5>
@@ -2132,10 +2132,10 @@ SELECT semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modu
 
 SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (16 - 3) / 16 * 4 = 3,25
 
-<h4><b>Result-Based Evaluation: 0,5 / 4</b></h4>
+<h4><b>Result-Based Grading: 0,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -2180,13 +2180,13 @@ Points = (16 - 3) / 16 * 4 = 3,25
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 0 + 0,5 = 0,5
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -2199,19 +2199,19 @@ Points = 0 + 0,5 = 0,5
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -2219,10 +2219,10 @@ Points = 0 + 0,5 = 0,5
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -2235,19 +2235,19 @@ Points = 0 + 0,5 = 0,5
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -2523,15 +2523,15 @@ join modul m on ms.modul = m.id
 group by ms.semester 
 having COUNT(distinct m.themengebiet) >= 3;</code>
 
-<h4><b>Manual Evaluation: 3,5 / 4</b></h4>
+<h4><b>Manual Grading: 3,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-2-3-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-2-3-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 3,5
 
-<h4><b>Distance-Based Evaluation: 3,75 / 4</b></h4>
+<h4><b>Distance-Based Grading: 3,75 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 16
 <h5>Student Reponse:</h5>
@@ -2552,10 +2552,10 @@ SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY se
 
 SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (16 - 1) / 16 * 4 = 3,75
 
-<h4><b>Result-Based Evaluation: 1 / 4</b></h4>
+<h4><b>Result-Based Grading: 1 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -2600,13 +2600,13 @@ Points = (16 - 1) / 16 * 4 = 3,75
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 0 + 1 = 1
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -2619,19 +2619,19 @@ Points = 0 + 1 = 1
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -2639,10 +2639,10 @@ Points = 0 + 1 = 1
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -2655,19 +2655,19 @@ Points = 0 + 1 = 1
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -2953,15 +2953,15 @@ from modul m
 join modul_semester ms on m.id = ms.modul 
 group by id;</code>
 
-<h4><b>Manual Evaluation: 3 / 4</b></h4>
+<h4><b>Manual Grading: 3 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-3-1-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-3-1-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 3
 
-<h4><b>Distance-Based Evaluation: 3,3 / 4</b></h4>
+<h4><b>Distance-Based Grading: 3,3 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 17
 <h5>Student Reponse:</h5>
@@ -2986,10 +2986,10 @@ SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (m
 
 SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (17 - 3) / 17 * 4 = 3,2941176471
 
-<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h4><b>Result-Based Grading: 4 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -3044,13 +3044,13 @@ Points = (17 - 3) / 17 * 4 = 3,2941176471
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2 + 1 + 1 = 4
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -3063,19 +3063,19 @@ Points = 2 + 1 + 1 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -3083,10 +3083,10 @@ Points = 2 + 1 + 1 = 4
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -3099,19 +3099,19 @@ Points = 2 + 1 + 1 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -3393,15 +3393,15 @@ FROM modul
 JOIN modul_semester ON modul.id = modul_semester.modul 
 GROUP BY modul.bezeichnung;</code>
 
-<h4><b>Manual Evaluation: 4 / 4</b></h4>
+<h4><b>Manual Grading: 4 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-3-2-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-3-2-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 4
 
-<h4><b>Distance-Based Evaluation: 3,5 / 4</b></h4>
+<h4><b>Distance-Based Grading: 3,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 17
 <h5>Student Reponse:</h5>
@@ -3422,10 +3422,10 @@ SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (m
 
 SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (17 - 2) / 17 * 4 = 3,5294117647
 
-<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h4><b>Result-Based Grading: 4 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -3480,13 +3480,13 @@ Points = (17 - 2) / 17 * 4 = 3,5294117647
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2 + 1 + 1 = 4
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -3499,19 +3499,19 @@ Points = 2 + 1 + 1 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -3519,10 +3519,10 @@ Points = 2 + 1 + 1 = 4
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -3535,19 +3535,19 @@ Points = 2 + 1 + 1 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -3845,15 +3845,15 @@ from modul, modul_semester
 group by bezeichnung 
 order by bezeichnung desc;</code>
 
-<h4><b>Manual Evaluation: 2,5 / 4</b></h4>
+<h4><b>Manual Grading: 2,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-3-3-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-3-3-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2,5
 
-<h4><b>Distance-Based Evaluation: 2,4 / 4</b></h4>
+<h4><b>Distance-Based Grading: 2,4 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 17
 <h5>Student Reponse:</h5>
@@ -3890,10 +3890,10 @@ SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (m
 
 SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (17 - 7) / 17 * 4 = 2,3529411764
 
-<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h4><b>Result-Based Grading: 4 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -3948,13 +3948,13 @@ Points = (17 - 7) / 17 * 4 = 2,3529411764
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2 + 1 + 1 = 4
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -3967,19 +3967,19 @@ Points = 2 + 1 + 1 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -3987,10 +3987,10 @@ Points = 2 + 1 + 1 = 4
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -4003,19 +4003,19 @@ Points = 2 + 1 + 1 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -4305,15 +4305,15 @@ from modul
 join modul_semester on modul = id 
 group by modul;</code>
 
-<h4><b>Manual Evaluation: 2,5 / 4</b></h4>
+<h4><b>Manual Grading: 2,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-3-4-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-3-4-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2,5
 
-<h4><b>Distance-Based Evaluation: 3,1 / 4</b></h4>
+<h4><b>Distance-Based Grading: 3,1 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 17
 <h5>Student Reponse:</h5>
@@ -4342,10 +4342,10 @@ SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul 
 
 SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
 
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (17 - 4) / 17 * 4 = 3,0588235294
 
-<h4><b>Result-Based Evaluation: 0 / 4</b></h4>
+<h4><b>Result-Based Grading: 0 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -4400,13 +4400,13 @@ Points = (17 - 4) / 17 * 4 = 3,0588235294
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 0 + 0 + 0 = 0
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -4419,19 +4419,19 @@ Points = 0 + 0 + 0 = 0
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -4439,10 +4439,10 @@ Points = 0 + 0 + 0 = 0
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -4455,19 +4455,19 @@ Points = 0 + 0 + 0 = 0
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -4749,15 +4749,15 @@ WHERE m.gop = "ja";</code>
 From modul_semester, modul 
 Where gop = 'ja';</code>
 
-<h4><b>Manual Evaluation: 2,5 / 4</b></h4>
+<h4><b>Manual Grading: 2,5 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <img src="img/scenario-4-1-sample.png"/>
 <h5>Student Reponse:</h5>
 <img src="img/scenario-4-1-student.png"/>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2,5
 
-<h4><b>Distance-Based Evaluation: 2,7 / 4</b></h4>
+<h4><b>Distance-Based Grading: 2,7 / 4</b></h4>
 <h5>Sample Solution:</h5>
 Difficulty: 18
 <h5>Student Reponse:</h5>
@@ -4789,10 +4789,10 @@ SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modu
 &gt;&gt;&gt; <strong>Cost 2</strong>: Unset (excess) distinct-declaration.
 
 SELECT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = id) WHERE (gop = 'ja');
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = (18 - 6) / 18 * 4 = 2,6666666666
 
-<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h4><b>Result-Based Grading: 4 / 4</b></h4>
 <h5>Sample Solution:</h5>
 <table>
     <thead>
@@ -4837,13 +4837,13 @@ Points = (18 - 6) / 18 * 4 = 2,6666666666
         </tr>
     </tbody>
 </table>
-<h5>Evaluation:</h5>
+<h5>Grading:</h5>
 Points = 2 + 2 = 4
 
-<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally fair.
 <br /><br />
 <table>
 <thead>
@@ -4856,19 +4856,19 @@ Points = 2 + 2 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
@@ -4876,10 +4876,10 @@ Points = 2 + 2 = 4
 </tbody>
 </table>
 
-<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each grading.
 <br /><br />
-<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
-<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<b>Attention:</b> The gradings here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple gradings as being equally comprehensible.
 <br /><br />
 <table>
 <thead>
@@ -4892,19 +4892,19 @@ Points = 2 + 2 = 4
 </thead>
 <tbody>
   <tr>
-    <td>Result-Based<br />Evaluation</td>
+    <td>Result-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Distance-Based<br />Evaluation</td>
+    <td>Distance-Based<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
   </tr>
   <tr>
-    <td>Manual<br />Evaluation</td>
+    <td>Manual<br />Grading</td>
     <td>o</td>
     <td>o</td>
     <td>o</td>
