@@ -2,9 +2,9 @@
 
 Our survey was conducted among research assistants and students with advanced SQL experience. 
 
-The survey tool utilized for this purpose was [LamaPool](https://www.lamapoll.de/).
+The survey tool utilized for this purpose was [LamaPoll](https://www.lamapoll.de/).
 
-The survey results are located in the `results` folder. This includes a file with the pure results as exported by lamapoll (`raw-results.csv`), as well as a file containing all the transformations required to arrive at the results as we have published them in the paper (`transformed-and-visualized-results.xlsx`).
+The survey results are located in the `results` folder. This includes a file with the pure results as exported by LamaPoll (`raw-results.csv`), as well as a file containing all the transformations required to arrive at the results as we have published them in the paper (`transformed-and-visualized-results.xlsx`).
 
 The original survey was saved as an HTML file in the `snapshots` folder.
 
@@ -589,9 +589,9 @@ The survey results for this scenario are as follows:
 
 #### Legend:
 - "1" represents the selection of the best option
-- "0" indicates the selection of the moderate option
-- "-1" signifies the selection of the worst option
-- "-2" denotes no selection made by participants
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
 
 ## Page 4 
 
@@ -1004,9 +1004,9 @@ The survey results for this scenario are as follows:
 
 #### Legend:
 - "1" represents the selection of the best option
-- "0" indicates the selection of the moderate option
-- "-1" signifies the selection of the worst option
-- "-2" denotes no selection made by participants
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
 
 ## Page 5 
 
@@ -1443,12 +1443,12 @@ The survey results for this scenario are as follows:
 
 #### Legend:
 - "1" represents the selection of the best option
-- "0" indicates the selection of the moderate option
-- "-1" signifies the selection of the worst option
-- "-2" denotes no selection made by participants
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
 
 
-## Placeholder
+## Page 6 
 
 <table>
   <tr>
@@ -1457,11 +1457,3508 @@ The survey results for this scenario are as follows:
   </tr>
   <tr>
     <td width="50%">
-<h3>Vergleich von SQL Bewertungs-Verfahren</h3>
+<h3>Szenario 2-1</h3>
+<h4>Aufgabenstellung 2</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie die Nummer derjenigen Semester als semester an, in denen mehr als 3 verschiedene Themengebiete behandelt werden.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT ms.semester
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY ms.semester
+HAVING COUNT(DISTINCT m.themengebiet) > 3;</code>
+
+<h4>Studentische Antwort 1</h4>
+<code>select ms.semester as semester 
+from modul_semester ms 
+join modul m on m.id = ms.modul 
+group by ms.semester 
+having count(m.themengebiet) > 3;</code>
+
+<h4><b>Manuelle Bewertung: 3,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-2-1-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-2-1-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 3,5
+
+<h4><b>Distanzbasierte Bewertung: 3,5/4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 16
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 2</strong>
+
+
+SELECT semester AS semester FROM modul_semester INNER JOIN modul ON (id = modul) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT semester AS semester FROM modul INNER JOIN modul_semester ON (id = modul) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap arguments of commutative binary-expression in a from-element join-condition.
+
+SELECT semester AS semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Unset (redundant) explicit alias on a select-element.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 2</strong>: Set (missing) distinct-declaration on an aggregation function in the having-clause.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+<h5>Bewertung:</h5>
+Punkte = (16 - 2) / 16 * 4 = 3,5
+
+<h4><b>Ergebnisbasierte Bewertung: 1 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>3<br /></td>
+            <td>3<br /></td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>5<br /></td>
+            <td>0<br /></td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 0 + 1 = 1
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
     </td>
     <td width="50%">
-<h3>Comparison of SQL Evaluation Methods</h3>
+<h3>Scenario 2-1</h3>
+<h4>Task 2</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Indicate the number of those semesters as semester in which more than three different subject areas are covered.
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT ms.semester
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY ms.semester
+HAVING COUNT(DISTINCT m.themengebiet) > 3;</code>
+
+<h4>Student Response 1</h4>
+<code>select ms.semester as semester 
+from modul_semester ms 
+join modul m on m.id = ms.modul 
+group by ms.semester 
+having count(m.themengebiet) > 3;</code>
+
+<h4><b>Manual Evaluation: 3,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-2-1-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-2-1-student.png"/>
+<h5>Evaluation:</h5>
+Points = 3,5
+
+<h4><b>Distance-Based Evaluation: 3,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 16
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 2</strong>
+
+
+SELECT semester AS semester FROM modul_semester INNER JOIN modul ON (id = modul) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT semester AS semester FROM modul INNER JOIN modul_semester ON (id = modul) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap arguments of commutative binary-expression in a from-element join-condition.
+
+SELECT semester AS semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Unset (redundant) explicit alias on a select-element.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 2</strong>: Set (missing) distinct-declaration on an aggregation function in the having-clause.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+<h5>Evaluation:</h5>
+Points = (16 - 2) / 16 * 4 = 3,5
+
+<h4><b>Result-Based Evaluation: 1 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>3</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 0 + 1 = 1
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
     </td>
   </tr>
 </table>
 
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 3                      | 1                     | 1                     | 2                      | 2                     | 1                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 1                      | 3                     | 1                     | 1                      | 1                     | 1                     |
+| 15  | 07.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | 3                      | 1                     | 1                     | 1                      | 3                     | 1                     |
+| 19  | 08.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 21  | 08.08.23 | 3                      | 1                     | 1                     | 2                      | 2                     | 1                     |
+| 22  | 09.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 23  | 18.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 24  | 15.08.23 | \-1                    | \-1                   | \-1                   | \-1                    | \-1                   | \-1                   |
+| 25  | 17.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 28  | 28.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 33  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 2                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 7 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 2-2</h3>
+<h4>Aufgabenstellung 2</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie die Nummer derjenigen Semester als semester an, in denen mehr als 3 verschiedene Themengebiete behandelt werden.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT ms.semester
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY ms.semester
+HAVING COUNT(DISTINCT m.themengebiet) > 3;</code>
+
+<h4>Studentische Antwort 2</h4>
+<code>select ms.semester as semester, 
+count(m.themengebiet) as themengebiete 
+from modul_semester ms 
+join modul m on ms.modul = m.id 
+group by ms.semester 
+having count(m.themengebiet) > 3;</code>
+
+<h4><b>Manuelle Bewertung: 3 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-2-2-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-2-2-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 3
+
+<h4><b>Distanzbasierte Bewertung: 3,25/4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 16
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 3</strong>
+
+
+SELECT semester AS semester, COUNT(themengebiet) AS themengebiete FROM modul_semester INNER JOIN modul ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT semester AS semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Unset (redundant) explicit alias on a select-element.
+
+SELECT semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 2</strong>: Set (missing) distinct-declaration on an aggregation function in the having-clause.
+
+SELECT semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Remove (excess) element in select-clause.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+<h5>Bewertung:</h5>
+Punkte = (16 - 3) / 16 * 4 = 3,25
+
+<h4><b>Ergebnisbasierte Bewertung: 0,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>3<br /></td>
+            <td>3<br /></td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>5<br /></td>
+            <td>0<br /></td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["semester",<br />"themengebiete"]<br /></td>
+            <td>0,5<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 0 + 0,5 = 0,5
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 2-2</h3>
+<h4>Task 2</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Indicate the number of those semesters as semester in which more than three different subject areas are covered.
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT ms.semester
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY ms.semester
+HAVING COUNT(DISTINCT m.themengebiet) > 3;</code>
+
+<h4>Student Response 2</h4>
+<code>select ms.semester as semester, 
+count(m.themengebiet) as themengebiete 
+from modul_semester ms 
+join modul m on ms.modul = m.id 
+group by ms.semester 
+having count(m.themengebiet) > 3;</code>
+
+<h4><b>Manual Evaluation: 3 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-2-2-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-2-2-student.png"/>
+<h5>Evaluation:</h5>
+Points = 3
+
+<h4><b>Distance-Based Evaluation: 3,25 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 16
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 3</strong>
+
+
+SELECT semester AS semester, COUNT(themengebiet) AS themengebiete FROM modul_semester INNER JOIN modul ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT semester AS semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Unset (redundant) explicit alias on a select-element.
+
+SELECT semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 2</strong>: Set (missing) distinct-declaration on an aggregation function in the having-clause.
+
+SELECT semester, COUNT(themengebiet) AS themengebiete FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Remove (excess) element in select-clause.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+<h5>Evaluation:</h5>
+Points = (16 - 3) / 16 * 4 = 3,25
+
+<h4><b>Result-Based Evaluation: 0,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>3</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["semester","themengebiete"]<br /></td>
+            <td>0,5<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 0 + 0,5 = 0,5
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 3                      | 1                     | 1                     | 1                      | 2                     | 3                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 15  | 07.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | 3                      | 1                     | 1                     | 2                      | 2                     | 2                     |
+| 19  | 08.08.23 | 3                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 3                      | 2                     | 2                     | 2                      | 1                     | 1                     |
+| 21  | 08.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 22  | 09.08.23 | 3                      | 2                     | 1                     | 3                      | 2                     | 1                     |
+| 23  | 18.08.23 | 3                      | 1                     | 2                     | 3                      | 1                     | 1                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 2                     | 3                      | 1                     | 1                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 28  | 28.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 2                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 33  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 2                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 8 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 2-3</h3>
+<h4>Aufgabenstellung 2</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie die Nummer derjenigen Semester als semester an, in denen mehr als 3 verschiedene Themengebiete behandelt werden.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT ms.semester
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY ms.semester
+HAVING COUNT(DISTINCT m.themengebiet) > 3;</code>
+
+<h4>Studentische Antwort 3</h4>
+<code>select ms.semester AS semester 
+from modul_semester ms 
+join modul m on ms.modul = m.id 
+group by ms.semester 
+having COUNT(distinct m.themengebiet) >= 3;</code>
+
+<h4><b>Manuelle Bewertung: 3,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-2-3-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-2-3-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 3,5
+
+<h4><b>Distanzbasierte Bewertung: 3,75/4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 16
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 1</strong>
+
+
+SELECT semester AS semester FROM modul_semester INNER JOIN modul ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt;= 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT semester AS semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt;= 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Unset (redundant) explicit alias on a select-element.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt;= 3);
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Change (incorrect) binary-expression operator in the having-clause.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+<h5>Bewertung:</h5>
+Punkte = (16 - 1) / 16 * 4 = 3,75
+
+<h4><b>Ergebnisbasierte Bewertung: 1 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>3<br /></td>
+            <td>3<br /></td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>5<br /></td>
+            <td>0<br /></td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 0 + 1 = 1
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 2-3</h3>
+<h4>Task 2</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Indicate the number of those semesters as semester in which more than three different subject areas are covered.
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT ms.semester
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY ms.semester
+HAVING COUNT(DISTINCT m.themengebiet) > 3;</code>
+
+<h4>Student Response 3</h4>
+<code>select ms.semester AS semester 
+from modul_semester ms 
+join modul m on ms.modul = m.id 
+group by ms.semester 
+having COUNT(distinct m.themengebiet) >= 3;</code>
+
+<h4><b>Manual Evaluation: 3,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-2-3-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-2-3-student.png"/>
+<h5>Evaluation:</h5>
+Points = 3,5
+
+<h4><b>Distance-Based Evaluation: 3,75 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 16
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 1</strong>
+
+
+SELECT semester AS semester FROM modul_semester INNER JOIN modul ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt;= 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT semester AS semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt;= 3);
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Unset (redundant) explicit alias on a select-element.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt;= 3);
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Change (incorrect) binary-expression operator in the having-clause.
+
+SELECT semester FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY semester HAVING (COUNT(DISTINCT themengebiet) &gt; 3);
+
+<h5>Evaluation:</h5>
+Points = (16 - 1) / 16 * 4 = 3,75
+
+<h4><b>Result-Based Evaluation: 1 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>3</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["semester"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 0 + 1 = 1
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 3                      | 2                     | 1                     | 1                      | 1                     | 2                     |
+| 15  | 07.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | 3                      | 1                     | 1                     | 2                      | 3                     | 1                     |
+| 19  | 08.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 21  | 08.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 22  | 09.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 2                     |
+| 23  | 18.08.23 | 3                      | 1                     | 2                     | 3                      | 1                     | 1                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 28  | 28.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 33  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 3                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 9 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 3-1</h3>
+<h4>Aufgabenstellung 3</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie für jedes Modul dessen Bezeichnung an, und wie viele ECTS man in diesem insgesamt sammelt. Die zweite Information soll ects heißen.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Studentische Antwort 1</h4>
+<code>select bezeichnung, count (ects) as ects 
+from modul m 
+join modul_semester ms on m.id = ms.modul 
+group by id;</code>
+
+<h4><b>Manuelle Bewertung: 3 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-3-1-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-3-1-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 3
+
+<h4><b>Distanzbasierte Bewertung: 3,3/4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 17
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 3</strong>
+
+
+SELECT bezeichnung, COUNT(ects) AS ects FROM modul INNER JOIN modul_semester ON (id = modul) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap arguments of commutative binary-expression in a from-element join-condition.
+
+SELECT bezeichnung, COUNT(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Change (incorrect) aggregation-function aggregation in a select-element expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, &nbsp; &nbsp;;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Bewertung:</h5>
+Punkte = (17 - 3) / 17 * 4 = 3,2941176471
+
+<h4><b>Ergebnisbasierte Bewertung: 4 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 2 + 1 + 1 = 4
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 3-1</h3>
+<h4>Task 3</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+For each module, specify its name and the total number of ECTS credits accumulated. The second piece of information should be named "ects".
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Student Response 1</h4>
+<code>select bezeichnung, count (ects) as ects 
+from modul m 
+join modul_semester ms on m.id = ms.modul 
+group by id;</code>
+
+<h4><b>Manual Evaluation: 3 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-3-1-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-3-1-student.png"/>
+<h5>Evaluation:</h5>
+Points = 3
+
+<h4><b>Distance-Based Evaluation: 3,3 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 17
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 3</strong>
+
+
+SELECT bezeichnung, COUNT(ects) AS ects FROM modul INNER JOIN modul_semester ON (id = modul) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap arguments of commutative binary-expression in a from-element join-condition.
+
+SELECT bezeichnung, COUNT(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Change (incorrect) aggregation-function aggregation in a select-element expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, &nbsp; &nbsp;;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Evaluation:</h5>
+Points = (17 - 3) / 17 * 4 = 3,2941176471
+
+<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 2 + 1 + 1 = 4
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 3                      | 1                     | 2                     | 3                      | 2                     | 1                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 3                      | 3                     | 2                     | 1                      | 1                     | 2                     |
+| 15  | 07.08.23 | 3                      | 1                     | 2                     | 2                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | \-1                    | \-1                   | \-1                   | \-1                    | \-1                   | \-1                   |
+| 19  | 08.08.23 | 3                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 3                      | 2                     | 2                     | 2                      | 1                     | 1                     |
+| 21  | 08.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 22  | 09.08.23 | 3                      | 2                     | 1                     | 3                      | 1                     | 1                     |
+| 23  | 18.08.23 | 2                      | 1                     | 1                     | 3                      | 2                     | 1                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 1                     | 3                      | 2                     | 1                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 2                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 28  | 28.08.23 | 2                      | 1                     | 1                     | 1                      | 1                     | 2                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 2                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 33  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 2                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 10 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 3-2</h3>
+<h4>Aufgabenstellung 3</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie für jedes Modul dessen Bezeichnung an, und wie viele ECTS man in diesem insgesamt sammelt. Die zweite Information soll ects heißen.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Studentische Antwort 2</h4>
+<code>SELECT modul.bezeichnung, SUM(modul_semester.ects) AS ects 
+FROM modul 
+JOIN modul_semester ON modul.id = modul_semester.modul 
+GROUP BY modul.bezeichnung;</code>
+
+<h4><b>Manuelle Bewertung: 4 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-3-2-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-3-2-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 4
+
+<h4><b>Distanzbasierte Bewertung: 3,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 17
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 2</strong>
+
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (id = modul) GROUP BY bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap arguments of commutative binary-expression in a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY &nbsp; &nbsp;, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Bewertung:</h5>
+Punkte = (17 - 2) / 17 * 4 = 3,5294117647
+
+<h4><b>Ergebnisbasierte Bewertung: 4 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 2 + 1 + 1 = 4
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 3-2</h3>
+<h4>Task 3</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+For each module, specify its name and the total number of ECTS credits accumulated. The second piece of information should be named "ects".
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Student Response 2</h4>
+<code>SELECT modul.bezeichnung, SUM(modul_semester.ects) AS ects 
+FROM modul 
+JOIN modul_semester ON modul.id = modul_semester.modul 
+GROUP BY modul.bezeichnung;</code>
+
+<h4><b>Manual Evaluation: 4 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-3-2-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-3-2-student.png"/>
+<h5>Evaluation:</h5>
+Points = 4
+
+<h4><b>Distance-Based Evaluation: 3,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 17
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 2</strong>
+
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (id = modul) GROUP BY bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap arguments of commutative binary-expression in a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY &nbsp; &nbsp;, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Evaluation:</h5>
+Points = (17 - 2) / 17 * 4 = 3,5294117647
+
+<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 2 + 1 + 1 = 4
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 1                      | 2                     | 1                     | 3                      | 3                     | 1                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 1                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 15  | 07.08.23 | 1                      | 2                     | 1                     | 2                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 19  | 08.08.23 | 1                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 2                      | 1                     | 2                     | 1                      | 1                     | 1                     |
+| 21  | 08.08.23 | 2                      | 1                     | 2                     | 2                      | 1                     | 3                     |
+| 22  | 09.08.23 | 1                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 23  | 18.08.23 | 1                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 2                     | 3                      | 1                     | 1                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 1                      | 3                     | 1                     | 1                      | 1                     | 1                     |
+| 28  | 28.08.23 | 1                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 1                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 2                     | 2                      | 2                     | 1                     |
+| 33  | 01.09.23 | 1                      | 2                     | 1                     | 1                      | 2                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 11 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 3-3</h3>
+<h4>Aufgabenstellung 3</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie für jedes Modul dessen Bezeichnung an, und wie viele ECTS man in diesem insgesamt sammelt. Die zweite Information soll ects heißen.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Studentische Antwort 3</h4>
+<code>select bezeichnung, sum(ects) as ects 
+from modul, modul_semester 
+group by bezeichnung 
+order by bezeichnung desc;</code>
+
+<h4><b>Manuelle Bewertung: 2,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-3-3-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-3-3-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 2,5
+
+<h4><b>Distanzbasierte Bewertung: 2,4 / 4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 17
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 7</strong>
+
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY bezeichnung ORDER BY bezeichnung DESC;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Remove (excess) element in order-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY &nbsp; &nbsp;, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Set complex join-type on a from-element (change cross join to a complex join).
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) binary-expression to a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON ( &nbsp; &nbsp;= &nbsp; &nbsp;) GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = &nbsp; &nbsp;) GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Bewertung:</h5>
+Punkte = (17 - 7) / 17 * 4 = 2,3529411764
+
+<h4><b>Ergebnisbasierte Bewertung: 4 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 2 + 1 + 1 = 4
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 3-3</h3>
+<h4>Task 3</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+For each module, specify its name and the total number of ECTS credits accumulated. The second piece of information should be named "ects".
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Student Response 3</h4>
+<code>select bezeichnung, sum(ects) as ects 
+from modul, modul_semester 
+group by bezeichnung 
+order by bezeichnung desc;</code>
+
+<h4><b>Manual Evaluation: 2,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-3-3-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-3-3-student.png"/>
+<h5>Evaluation:</h5>
+Points = 2,5
+
+<h4><b>Distance-Based Evaluation: 2,4 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 17
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 7</strong>
+
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY bezeichnung ORDER BY bezeichnung DESC;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Remove (excess) element in order-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY &nbsp; &nbsp;, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul, modul_semester GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Set complex join-type on a from-element (change cross join to a complex join).
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) binary-expression to a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON ( &nbsp; &nbsp;= &nbsp; &nbsp;) GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = &nbsp; &nbsp;) GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Evaluation:</h5>
+Points = (17 - 7) / 17 * 4 = 2,3529411764
+
+<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 2 + 1 + 1 = 4
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 2                      | 3                     | 3                     | 3                      | 2                     | 2                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 2                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 15  | 07.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 19  | 08.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 21  | 08.08.23 | 2                      | 2                     | 1                     | 3                      | 1                     | 2                     |
+| 22  | 09.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 23  | 18.08.23 | 1                      | 2                     | 2                     | 1                      | 2                     | 2                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 2                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 3                      | 1                     | 1                     | 2                      | 2                     | 1                     |
+| 28  | 28.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 33  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 12 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 3-4</h3>
+<h4>Aufgabenstellung 3</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie für jedes Modul dessen Bezeichnung an, und wie viele ECTS man in diesem insgesamt sammelt. Die zweite Information soll ects heißen.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Studentische Antwort 4</h4>
+<code>select bezeichnung, ects 
+from modul 
+join modul_semester on modul = id 
+group by modul;</code>
+
+<h4><b>Manuelle Bewertung: 2,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-3-4-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-3-4-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 2,5
+
+<h4><b>Distanzbasierte Bewertung: 3,1 / 4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 17
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 4</strong>
+
+
+SELECT bezeichnung, ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY modul;
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Set (redundant) explicit alias on a select-element.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY modul;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Change (incorrect) column-reference column in a group-by expression.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, &nbsp; &nbsp;;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) aggregation-function to a select-element expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Bewertung:</h5>
+Punkte = (17 - 4) / 17 * 4 = 3,0588235294
+
+<h4><b>Ergebnisbasierte Bewertung: 0 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>false</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>false</td>
+            <td>0<br /></td>
+        </tr>
+        <tr>
+            <td>Funktionale<br />Abhängigkeiten<br /></td>
+            <td>false</td>
+            <td>0<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 0 + 0 + 0 = 0
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 3-4</h3>
+<h4>Task 3</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+For each module, specify its name and the total number of ECTS credits accumulated. The second piece of information should be named "ects".
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT m.bezeichnung, SUM(ms.ects) AS ects
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+GROUP BY m.id, m.bezeichnung;</code>
+
+<h4>Student Response 4</h4>
+<code>select bezeichnung, ects 
+from modul 
+join modul_semester on modul = id 
+group by modul;</code>
+
+<h4><b>Manual Evaluation: 2,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-3-4-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-3-4-student.png"/>
+<h5>Evaluation:</h5>
+Points = 2,5
+
+<h4><b>Distance-Based Evaluation: 3,1 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 17
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 4</strong>
+
+
+SELECT bezeichnung, ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY modul;
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Set (redundant) explicit alias on a select-element.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY modul;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Change (incorrect) column-reference column in a group-by expression.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) element in group-by-clause.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, &nbsp; &nbsp;;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column reference to a group-by expression.
+
+SELECT bezeichnung, ects AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) aggregation-function to a select-element expression.
+
+SELECT bezeichnung, SUM(ects) AS ects FROM modul INNER JOIN modul_semester ON (modul = id) GROUP BY id, bezeichnung;
+
+<h5>Evaluation:</h5>
+Points = (17 - 4) / 17 * 4 = 3,0588235294
+
+<h4><b>Result-Based Evaluation: 0 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["bezeichnung",<br />"ects"]<br /></td>
+            <td>1<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>["{\"determinateAtt.\":<br />[\"bezeichnung\"],<br />\"dependentAtt.\":<br />[\"ects\"]}"]</td>
+            <td>1<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>false</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>false</td>
+            <td>0<br /></td>
+        </tr>
+        <tr>
+            <td>Functional<br />Dependencies</td>
+            <td>false</td>
+            <td>0<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 0 + 0 + 0 = 0
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 3                      | 1                     | 2                     | 3                      | 2                     | 3                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 1                      | 3                     | 3                     | 1                      | 1                     | 3                     |
+| 15  | 07.08.23 | 3                      | 1                     | 2                     | 2                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 19  | 08.08.23 | 3                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 20  | 08.08.23 | 3                      | 2                     | 2                     | 2                      | 1                     | 1                     |
+| 21  | 08.08.23 | 3                      | 2                     | 1                     | 3                      | 2                     | 1                     |
+| 22  | 09.08.23 | 3                      | 2                     | 1                     | 1                      | 2                     | 1                     |
+| 23  | 18.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 2                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 2                     |
+| 28  | 28.08.23 | 3                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 2                      | 2                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 1                     |
+| 33  | 01.09.23 | 3                      | 2                     | 1                     | 2                      | 2                     | 2                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
+
+## Page 13 
+
+<table>
+  <tr>
+    <th width="50%">German (original)</th>
+    <th width="50%">English (translated)</th>
+  </tr>
+  <tr>
+    <td width="50%">
+<h3>Szenario 4-1</h3>
+<h4>Aufgabenstellung 4</h4>
+Diese Datenbank ist an den Musterstudienplan im Informatik Bachelorstudiengang angelehnt. Sie ist auf dem Stand von Wintersemester 2019/20 und besteht aus vier Relationen:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Geben Sie an, wie viele ects alle GOP-fähigen Module (gekennzeichnet durch Attributwert ja) in Summe haben. Nennen Sie das Ergebnis summe.
+
+Die Maximale Punktzahl beträgt 4.
+
+<h4>Musterlösung</h4>
+<code>SELECT SUM(ms.ects) AS summe
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+WHERE m.gop = "ja";</code>
+
+<h4>Studentische Antwort 1</h4>
+<code>Select DISTINCT Sum(ects) as summe 
+From modul_semester, modul 
+Where gop = 'ja';</code>
+
+<h4><b>Manuelle Bewertung: 2,5 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<img src="img/scenario-4-1-sample.png"/>
+<h5>Studentische Antwort:</h5>
+<img src="img/scenario-4-1-student.png"/>
+<h5>Bewertung:</h5>
+Punkte = 2,5
+
+<h4><b>Distanzbasierte Bewertung: 2,7 / 4</b></h4>
+<h5>Musterlösung:</h5>
+Difficulty: 18
+<h5>Studentische Antwort:</h5>
+<strong>Total Distance: 6</strong>
+
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul_semester, modul WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul, modul_semester WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Set complex join-type on a from-element (change cross join to a complex join).
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) binary-expression to a from-element join-condition.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON ( &nbsp; &nbsp;= &nbsp; &nbsp;) WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = &nbsp; &nbsp;) WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = id) WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 2</strong>: Unset (excess) distinct-declaration.
+
+SELECT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = id) WHERE (gop = 'ja');
+
+<h5>Bewertung:</h5>
+Punkte = (18 - 6) / 18 * 4 = 2,6666666666
+
+<h4><b>Ergebnisbasierte Bewertung: 4 / 4</b></h4>
+<h5>Musterlösung:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Maximale<br />Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["summe"]<br /></td>
+            <td>2<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Studentische Antwort:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Bepunktungsmetrik<br /></th>
+            <th>Erwarteter Wert<br /></th>
+            <th>Punkte<br /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Anzahl der Tupel<br /></td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Namen der<br />Attribute<br /></td>
+            <td>["summe"]</td>
+            <td>2<br /></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Bewertung:</h5>
+Punkte = 2 + 2 = 4
+
+<h4>Fairness:</h4> Geben Sie an, wie <b>fair</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Mittel</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Nachvollziehbarkeit:</h4> Geben Sie an, wie <b>nachvollziehbar</b> ​Sie die jeweilige Bewertung finden
+<br /><br />
+<b>Achtung:</b> Die Bewertungen hier befinden sich möglicherweise in einer andereren Reihenfolge als weiter oben auf der Seite!
+<b>Hinweis:</b> Es ist möglich, mehrere Bewertungen gleich einzustufen.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Gut<br />nachvoll-<br />ziehbar</th>
+    <th>Mittel</th>
+    <th>Schlecht<br />nachvoll-<br />ziehbar</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Ergebnisbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distanzbasierte<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manuelle<br />Bewertung</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+    <td width="50%">
+<h3>Scenario 4-1</h3>
+<h4>Task 4</h4>
+This database is modeled after the standard curriculum of the Bachelor's program in Computer Science. It reflects the status as of the winter semester 2019/20 and comprises four relations:
+<br /><br />
+<ol><li>themengebiet ( _id_, bezeichnung )</li>
+<li>modul ( _id_, bezeichnung, gop, themengebiet [themengebiet] )</li>
+<li>semester ( _nummer_ )</li>
+<li>modul_semester ( _modul [modul], semester [semester]_, ects )</li></ol>
+
+Indicate the total number of ECTS credits for all modules eligible for the General Orientation Test (GOP), identified by the attribute value "ja". Name the result "summe".
+
+The maximum score is 4.
+<h4>Sample Solution</h4>
+<code>SELECT SUM(ms.ects) AS summe
+FROM modul m
+JOIN modul_semester ms ON (ms.modul = m.id)
+WHERE m.gop = "ja";</code>
+
+<h4>Student Response 1</h4>
+<code>Select DISTINCT Sum(ects) as summe 
+From modul_semester, modul 
+Where gop = 'ja';</code>
+
+<h4><b>Manual Evaluation: 2,5 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<img src="img/scenario-4-1-sample.png"/>
+<h5>Student Reponse:</h5>
+<img src="img/scenario-4-1-student.png"/>
+<h5>Evaluation:</h5>
+Points = 2,5
+
+<h4><b>Distance-Based Evaluation: 2,7 / 4</b></h4>
+<h5>Sample Solution:</h5>
+Difficulty: 18
+<h5>Student Reponse:</h5>
+<strong>Total Distance: 6</strong>
+
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul_semester, modul WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 0</strong>: Swap elements in the from-clause.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul, modul_semester WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Set complex join-type on a from-element (change cross join to a complex join).
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) binary-expression to a from-element join-condition.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON ( &nbsp; &nbsp;= &nbsp; &nbsp;) WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = &nbsp; &nbsp;) WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 1</strong>: Add (missing) column-reference to a from-element join-condition.
+
+SELECT DISTINCT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = id) WHERE (gop = 'ja');
+
+&gt;&gt;&gt; <strong>Cost 2</strong>: Unset (excess) distinct-declaration.
+
+SELECT SUM(ects) AS summe FROM modul INNER JOIN modul_semester ON (modul = id) WHERE (gop = 'ja');
+<h5>Evaluation:</h5>
+Points = (18 - 6) / 18 * 4 = 2,6666666666
+
+<h4><b>Result-Based Evaluation: 4 / 4</b></h4>
+<h5>Sample Solution:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Maximum<br />Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["summe"]<br /></td>
+            <td>2<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Student Reponse:</h5>
+<table>
+    <thead>
+        <tr>
+            <th>Scoring Metric</th>
+            <th>Expected Value</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Number of Tuples</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Attribute Names</td>
+            <td>["summe"]</td>
+            <td>2<br /></td>
+        </tr>
+    </tbody>
+</table>
+<h5>Evaluation:</h5>
+Points = 2 + 2 = 4
+
+<h4>Fairness:</h4> Indicate how <b>fair</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally fair.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Fair</th>
+    <th>Moderate</th>
+    <th>Unfair</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+
+<h4>Comprehensibility:</h4> Indicate how <b>comprehensible</b> you find each evaluation.
+<br /><br />
+<b>Attention:</b> The evaluations here may be in a different order than those found earlier on the page.<br />
+<b>Note:</b> It is possible to rate multiple evaluations as being equally comprehensible.
+<br /><br />
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th>Easy<br />to<br />comprehend</th>
+    <th>Moderate</th>
+    <th>Difficult<br />to<br />comprehend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Result-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Distance-Based<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+  <tr>
+    <td>Manual<br />Evaluation</td>
+    <td>o</td>
+    <td>o</td>
+    <td>o</td>
+  </tr>
+</tbody>
+</table>
+    </td>
+  </tr>
+</table>
+
+### Results
+
+The survey results for this scenario are as follows:
+
+| ID | DATE     | Fairness Result-Based | Fairness Distance-Based | Fairness Manual | Comprehensibility Result-Based | Comprehensibility Distance-Based | Comprehensibility Manual |
+| -- | -------- | --------------- | --------------------- | --------------------- | ---------------------- | --------------------- | --------------------- |
+| 1   | 12.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 2   | 13.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 3   | 17.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 4   | 21.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 5   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 6   | 24.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 7   | 26.07.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 8   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 9   | 02.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 10  | 04.08.23 | 3                      | 2                     | 2                     | 3                      | 2                     | 2                     |
+| 11  | 04.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 12  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 13  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 14  | 07.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 15  | 07.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 16  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 17  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 18  | 07.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 19  | 08.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 2                     |
+| 20  | 08.08.23 | 3                      | 2                     | 2                     | 3                      | 1                     | 1                     |
+| 21  | 08.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 1                     |
+| 22  | 09.08.23 | 3                      | 1                     | 2                     | 3                      | 1                     | 2                     |
+| 23  | 18.08.23 | 1                      | 1                     | 1                     | 3                      | 1                     | 2                     |
+| 24  | 15.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 25  | 17.08.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 2                     |
+| 26  | 18.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 27  | 23.08.23 | 3                      | 1                     | 1                     | 2                      | 1                     | 2                     |
+| 28  | 28.08.23 | 2                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 29  | 29.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 30  | 29.08.23 | 3                      | 1                     | 1                     | 1                      | 1                     | 1                     |
+| 31  | 31.08.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 32  | 01.09.23 | 3                      | 1                     | 1                     | 3                      | 1                     | 3                     |
+| 33  | 01.09.23 | 3                      | 1                     | 1                     | 1                      | 3                     | 1                     |
+| 34  | 01.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+| 35  | 04.09.23 | \-2                    | \-2                   | \-2                   | \-2                    | \-2                   | \-2                   |
+
+#### Legend:
+- "1" represents the selection of the best option
+- "2" indicates the selection of the moderate option
+- "3" signifies the selection of the worst option
+- "-1"/"-2" stand for "no response" or "not seen"
