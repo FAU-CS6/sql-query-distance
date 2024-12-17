@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>SQL Query Distance</title>
+  <link rel="stylesheet" href="css/standardize.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    button:disabled,
+    button[disabled],
+    input:disabled,
+    input[disabled] {
+      border: 2px solid #999999;
+      color: #999999;
+    }
+  </style>
+</head>
+<body class="body page-index clearfix">
+  <h1 class="full-width separator _text _text-1">SQL Query Distance</h1>
+  <div class="full-width separator main clearfix">
+    <div class="full-width-max-1000 content clearfix">
+      <h2 class="h2 _text _text-2">Calculate Linear Distace Between A Reference Solution And A Test Subject</h2>
+      <div class="full-width wrapper wrapper-1 clearfix">
+        <div class="full-width default-padding wrapper wrapper-2 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-3">Database schema:</h3>
+          <textarea id="select-schema" class="full-width textarea _textarea _textarea-1" name="schema" placeholder="table(_primaryKey_, foreignKey [foreignTable], attribute)
+foreignTable(_primaryKey_, attribute2)"></textarea>
+          <p id="feedback-schema" class="full-width feedback-text feedback"></p>
+        </div>
+        <div class="full-width default-padding wrapper wrapper-3 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-4">Reference Solution:</h3>
+          <textarea id="select-sample" class="full-width textarea _textarea _textarea-2" name="schema" placeholder="SELECT * 
+FROM ..."></textarea>
+          <p id="feedback-sample" class="full-width feedback-text feedback"></p>
+        </div>
+        <div class="full-width default-padding wrapper wrapper-4 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-5">Test Subject:</h3>
+          <textarea id="select-subject" class="full-width textarea _textarea _textarea-3" name="schema" placeholder="SELECT * 
+FROM ..."></textarea>
+          <p id="feedback-subject" class="full-width feedback-text feedback"></p>
+        </div>
+      </div>
+      <div class="full-width wrapper wrapper-5 clearfix">
+        <div class="full-width default-padding wrapper wrapper-6 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-6">Atomic Edits:</h3>
+          <textarea id="select-atomic-edits" class="full-width textarea _textarea _textarea-4" name="schema"></textarea>
+          <p id="feedback-atomic-edits" class="full-width feedback-text feedback"></p>
+        </div>
+        <div class="full-width default-padding wrapper wrapper-7 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-7">Horizontal Edits:</h3>
+          <textarea id="select-horizontal-edits" class="full-width textarea _textarea _textarea-5" name="schema"></textarea>
+          <p id="feedback-horizontal-edits" class="full-width feedback-text feedback"></p>
+        </div>
+        <div class="full-width default-padding wrapper wrapper-8 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-8">Shortcut Edits:</h3>
+          <textarea id="select-shortcut-edits" class="full-width textarea _textarea _textarea-6" name="schema"></textarea>
+          <p id="feedback-shortcut-edits" class="full-width feedback-text feedback"></p>
+        </div>
+      </div>
+      <div class="full-width default-padding wrapper wrapper-9 clearfix">
+        <div class="full-width wrapper wrapper-10 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-9">Result:</h3>
+          <div class="full-width wrapper wrapper-11 clearfix">
+            <button id="select-calculate" class="main-button _button" type="button">Calculate</button>
+            <button id="select-cancel" class="main-button _button _button-2" type="button">Cancel</button>
+            <p id="feedback-status" class="status">Loading. . .</p>
+          </div>
+        </div>
+        <div class="full-width wrapper wrapper-12 clearfix">
+          <h3 class="full-width h3 default-padding _text _text-10">Maximum Search Distance:</h3>
+          <div class="wrapper _html"><input type="checkbox" id="select-limit-distance" name="select-limit-distance" value="true">
+<label for="select-limit-distance">Limit search distance to:</label></div>
+          <input id="select-max-distance" class="textarea _input" placeholder="0" type="number">
+          <p id="feedback-subject" class="feedback feedback-7"></p>
+        </div>
+        <div class="full-width progress-bar clearfix">
+          <div id="feedback-progress" class="progress"></div>
+        </div>
+        <textarea id="feedback-result" class="full-width textarea _textarea _textarea-7"></textarea>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('feedback-result').readOnly = true;
+    document.getElementById('select-limit-distance').checked = false;
+    document.getElementById('select-max-distance').min = 0;
+    document.getElementById('select-max-distance').disabled = true;
+    document.getElementById('feedback-progress').style.width = "0%";
+    for(let b of document.getElementsByClassName("main-button")) {
+        b.disabled = true;
+    }
+  </script>
+  <script src="./js/index.js"></script>
+  <script>
+    let selectSchema = document.getElementById('select-schema');
+    let feedbackSchema = document.getElementById('feedback-schema');
+    let selectSample = document.getElementById('select-sample');
+    let feedbackSample = document.getElementById('feedback-sample');
+    let selectSubject = document.getElementById('select-subject');
+    let feedbackSubject = document.getElementById('feedback-subject');
+    let selectAtomicEdits = document.getElementById('select-atomic-edits');
+    let feedbackAtomicEdits = document.getElementById('feedback-atomic-edits');
+    let selectHorizontalEdits = document.getElementById('select-horizontal-edits');
+    let feedbackHorizontalEdits = document.getElementById('feedback-horizontal-edits');
+    let selectShortcutEdits = document.getElementById('select-shortcut-edits');
+    let feedbackShortcutEdits = document.getElementById('feedback-shortcut-edits');
+    let selectLimitDistance = document.getElementById('select-limit-distance');
+    let selectMaxDistance = document.getElementById('select-max-distance');
+    let selectCalculate = document.getElementById('select-calculate');
+    let selectCancel = document.getElementById('select-cancel');
+    let feedbackStatus = document.getElementById('feedback-status');
+    let feedbackProgress = document.getElementById('feedback-progress');
+    let feedbackResult = document.getElementById('feedback-result');
+
+    if(!selectAtomicEdits.value || selectAtomicEdits.value == "") {
+        selectAtomicEdits.value =
+            SQLQueryDistance.stringifyConfig(SQLQueryDistance.atomicEdits);
+    }
+    if(!selectHorizontalEdits.value || selectHorizontalEdits.value == "") {
+        selectHorizontalEdits.value =
+            SQLQueryDistance.stringifyConfig(SQLQueryDistance.horizontalEdits);
+    }
+    if(!selectShortcutEdits.value || selectShortcutEdits.value == "") {
+        selectShortcutEdits.value =
+            SQLQueryDistance.stringifyConfig(SQLQueryDistance.shortcutEdits);
+    }
+
+    selectSchema.addEventListener('keyup', () => {
+        try {
+            SQLQueryDistance.parseSchema(selectSchema.value);
+            feedbackSchema.innerText = "";
+        } catch (e) {
+            feedbackSchema.innerText = e.message;
+        } finally {
+            selectSample.dispatchEvent(new Event('keyup'));
+        }
+    });
+    selectSchema.dispatchEvent(new Event('keyup'));
+    selectSample.addEventListener('keyup', () => {
+        try {
+            SQLQueryDistance.validateQuerySyntaxAndSemantics(
+                selectSample.value, selectSchema.value);
+            feedbackSample.innerText = "";
+        } catch (e) {
+            feedbackSample.innerText = e.message;
+        }
+    });
+    selectSample.dispatchEvent(new Event('keyup'));
+    selectSubject.addEventListener('keyup', () => {
+        try {
+            SQLQueryDistance.validateQuerySyntax(selectSubject.value);
+            feedbackSubject.innerText = "";
+        } catch (e) {
+            feedbackSubject.innerText = e.message;
+        }
+    });
+    selectSubject.dispatchEvent(new Event('keyup'));
+    selectAtomicEdits.addEventListener('keyup', () => {
+        try {
+            SQLQueryDistance.parseConfig(selectAtomicEdits.value);
+            feedbackAtomicEdits.innerText = "";
+        } catch (e) {
+            feedbackAtomicEdits.innerText = e.message;
+        }
+    });
+    selectAtomicEdits.dispatchEvent(new Event('keyup'));
+    selectHorizontalEdits.addEventListener('keyup', () => {
+        try {
+            SQLQueryDistance.parseConfig(selectHorizontalEdits.value);
+            feedbackHorizontalEdits.innerText = "";
+        } catch (e) {
+            feedbackHorizontalEdits.innerText = e.message;
+        }
+    });
+    selectHorizontalEdits.dispatchEvent(new Event('keyup'));
+    selectShortcutEdits.addEventListener('keyup', () => {
+        try {
+            SQLQueryDistance.parseConfig(selectShortcutEdits.value);
+            feedbackShortcutEdits.innerText = "";
+        } catch (e) {
+            feedbackShortcutEdits.innerText = e.message;
+        }
+    });
+    selectShortcutEdits.dispatchEvent(new Event('keyup'));
+    selectLimitDistance.addEventListener('click', () => {
+        selectMaxDistance.disabled = !selectLimitDistance.checked;
+    });
+
+    selectCalculate.addEventListener('click', () => {
+        selectCalculate.disabled = true;
+        console.time();
+        SQLQueryDistance.parseAndCalculateDistance(
+            selectSample.value, selectSubject.value, selectSchema.value,
+            selectAtomicEdits.value+'\n'+selectHorizontalEdits.value+'\n'+selectShortcutEdits.value,
+            selectLimitDistance.checked ? selectMaxDistance.value : Infinity
+        ).then(([distance, steps, path]) => {
+            console.timeEnd();
+            feedbackStatus.innerText = "Finished.";
+            feedbackProgress.style.width = "100%";
+            feedbackResult.value = SQLQueryDistance.stringifyDistance(distance, steps, path);
+            selectCancel.disabled = true;
+            selectCalculate.disabled = false;
+        }, (e) => {
+            console.timeEnd();
+            feedbackStatus.innerText = "Failed.";
+            feedbackProgress.style.width = "100%";
+            feedbackProgress.style['background-color'] = 'rgb(255, 0, 0)';
+            feedbackResult.value = e.message;
+            selectCancel.disabled = true;
+            selectCalculate.disabled = false;
+            console.log(e);
+            alert(e.message);
+        });
+        selectCancel.disabled = false;
+    });
+    selectCancel.addEventListener('click', () => {
+        SQLQueryDistance.cancelCalculateDistance();
+    });
+
+    let dots = 2;
+    SQLQueryDistance.addUpdateListener((distance, maxDistance, queryCount, queueLength) => {
+        dots = (dots + 1) % 3;
+        feedbackStatus.innerText = "Calculating."+(dots>0?' .'+(dots>1?' .':''):'');
+        let progress = maxDistance != Infinity
+            ? (Math.exp(4 * (distance + 1 - queueLength/queryCount) /
+                (Number(maxDistance)+1)) - 1) / (Math.exp(4) - 1)
+            : (1 - Math.exp(-(distance + 1 - queueLength/queryCount)/20));
+        feedbackProgress.style.width = `${progress*100}%`;
+        feedbackProgress.style['background-color'] = 'rgb(0, 255, 255)';
+        feedbackResult.value = `Current Distance: ${distance}
+Searched Queries: ${queryCount}
+Queued Queries: ${queueLength}`
+    });
+
+
+    feedbackStatus.innerText = "Ready.";
+    selectCalculate.disabled = false;
+
+  </script>
+</body>
+</html>

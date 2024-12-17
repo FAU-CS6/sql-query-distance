@@ -1,0 +1,281 @@
+body {
+  background-color: rgb(255, 255, 255);
+  font: 700 1.125em/1.38 Helvetica;
+  color: rgb(0, 0, 0);
+}
+
+.content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feedback {
+  float: left;
+  clear: both;
+  width: 100%;
+  padding: 5px;
+  font-size: 0.889em;
+  font-weight: 400;
+  line-height: 1;
+  color: rgb(255, 0, 0);
+}
+
+.main {
+  float: left;
+  clear: both;
+  width: 100%;
+  border-top: 3px solid rgb(90, 90, 90);
+}
+
+.progress {
+  float: left;
+  width: 50%;
+  height: 10px;
+  background-color: rgb(0, 255, 255);
+}
+
+.progress-bar {
+  float: left;
+  clear: both;
+  width: 100%;
+  margin-top: 20px;
+  border: 2px solid rgb(119, 119, 119);
+  border-radius: 5px;
+  background-color: rgb(119, 119, 119);
+  overflow: hidden;
+}
+
+.status {
+  float: left;
+  width: 150px;
+  margin-left: 20px;
+  padding: 7px;
+  font-size: 0.889em;
+  color: rgb(0, 0, 0);
+}
+
+.wrapper {
+  float: left;
+}
+
+._button {
+  display: block;
+  float: left;
+  width: 130px;
+  padding: 5px 15px;
+  border: 2px solid rgb(119, 119, 119);
+  border-radius: 5px;
+  background-color: rgb(222, 222, 222);
+  box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, .5);
+  font-size: 0.889em;
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+._button:active {
+  background-color: rgb(0, 255, 255);
+  box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, .5);
+}
+
+._html {
+  position: relative;
+  clear: both;
+  z-index: 6;
+  width: 66%;
+  height: 25px;
+  overflow: hidden;
+}
+
+._input {
+  display: block;
+  position: relative;
+  float: left;
+  z-index: 4;
+  width: 33%;
+  height: 25px;
+  padding: 5px;
+  border: 2px solid rgb(119, 119, 119);
+  border-radius: 5px;
+  background-color: rgb(242, 242, 242);
+  font-family: Consolas;
+  font-size: 0.889em;
+  font-weight: Regular;
+  text-align: right;
+  color: rgb(0, 0, 0);
+}
+
+._text {
+  color: rgb(0, 0, 0);
+}
+
+._textarea {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border: 2px solid rgb(119, 119, 119);
+  border-radius: 5px;
+  background-color: rgb(242, 242, 242);
+  font-family: Consolas;
+  font-size: 0.889em;
+  color: rgb(0, 0, 0);
+  resize: vertical;
+}
+
+.wrapper ._text {
+  height: 50px;
+  padding: 10px 20px;
+  font-size: 1em;
+}
+
+.feedback-7 {
+  position: relative;
+  z-index: 3;
+}
+
+.wrapper-1 {
+  position: relative;
+  clear: both;
+  z-index: 40;
+  width: 50%;
+}
+
+.wrapper-10 {
+  position: relative;
+  z-index: 13;
+  width: 50%;
+}
+
+.wrapper-11 {
+  clear: both;
+  width: 96%;
+}
+
+.wrapper-12 {
+  position: relative;
+  z-index: 7;
+  width: 50%;
+}
+
+.wrapper-5 {
+  position: relative;
+  z-index: 27;
+  width: 50%;
+}
+
+.wrapper-2,
+.wrapper-6 {
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.wrapper-3,
+.wrapper-4,
+.wrapper-7,
+.wrapper-8,
+.wrapper-9 {
+  clear: both;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+._text-1 {
+  float: left;
+  width: 100%;
+  padding: 20px;
+  border-top: 3px solid rgb(90, 90, 90);
+  font-size: 2em;
+  text-align: center;
+}
+
+.content ._text-2 {
+  float: left;
+  width: 100%;
+  padding: 10px;
+  font-size: 1.444em;
+  text-align: center;
+}
+
+.wrapper ._button-2 {
+  margin-left: 20px;
+}
+
+.wrapper ._text-10,
+.wrapper ._text-3,
+.wrapper ._text-4,
+.wrapper ._text-5,
+.wrapper ._text-6,
+.wrapper ._text-7,
+.wrapper ._text-8 {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.wrapper ._text-9 {
+  float: left;
+  width: 96%;
+}
+
+.wrapper ._textarea-1,
+.wrapper ._textarea-2,
+.wrapper ._textarea-3,
+.wrapper ._textarea-4,
+.wrapper ._textarea-5,
+.wrapper ._textarea-6 {
+  height: 150px;
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+.wrapper ._textarea-7 {
+  float: left;
+  clear: both;
+  height: 500px;
+  margin-top: 20px;
+  font-weight: 400;
+  word-break: keep-all;
+  white-space: pre;
+}
+
+@media(max-width: 1000px) {
+  .wrapper ._html {
+    position: relative;
+    z-index: 6;
+  }
+
+  .wrapper ._input {
+    position: relative;
+    z-index: 4;
+  }
+
+  .content .wrapper-1 {
+    position: relative;
+    z-index: 40;
+    width: 100%;
+  }
+
+  .content .wrapper-5 {
+    position: relative;
+    clear: both;
+    z-index: 27;
+    width: 100%;
+  }
+
+  .wrapper .feedback-7 {
+    position: relative;
+    z-index: 3;
+  }
+
+  .wrapper .wrapper-10 {
+    position: relative;
+    z-index: 13;
+    width: 100%;
+  }
+
+  .wrapper .wrapper-12 {
+    position: relative;
+    clear: both;
+    z-index: 7;
+    width: 100%;
+  }
+}
