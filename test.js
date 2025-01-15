@@ -6,6 +6,7 @@ let distance, steps, path;
 
 const config = SQLQueryDistance.createDefaultConfig();
 config.get("unsetSelectAlias").cost = 0;
+const stringified_config = SQLQueryDistance.stringifyConfig(config);
 
 const schema = 
 `themengebiet ( _id_, bezeichnung )
@@ -34,7 +35,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_1, student_1_1, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_1, student_1_1, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -51,7 +52,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's multiple orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_1, student_1_2, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_1, student_1_2, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -68,7 +69,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's multiple orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_1, student_1_3, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_1, student_1_3, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -98,7 +99,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_2, student_2_1, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_2, student_2_1, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -117,7 +118,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_2, student_2_2, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_2, student_2_2, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -135,7 +136,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_2, student_2_3, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_2, student_2_3, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -163,7 +164,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_1, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_1, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -180,7 +181,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_2, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_2, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -197,7 +198,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_3, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_3, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -214,7 +215,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_4, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_3, student_3_4, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
@@ -241,7 +242,7 @@ console.log(`calculating...`);
 console.log(`WARNING: this may take some time! (For some reason it's orders of magnitude faster in the browser, where it was originally evaluated)`)
 console.time();
 [distance, steps, path] = await
-    SQLQueryDistance.parseAndCalculateDistance(reference_4, student_4_1, schema, config);
+    SQLQueryDistance.parseAndCalculateDistance(reference_4, student_4_1, schema, stringified_config);
 console.timeEnd();
 console.log(SQLQueryDistance.stringifyDistance(distance, steps, path));
 
